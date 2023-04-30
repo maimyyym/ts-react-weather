@@ -2,22 +2,23 @@ import React, {useState} from 'react'
 import { fetchWeather } from '../api/fetchWeather'
 
 type weather = {
-  name: string;
-  weather: {
-    main: string;
-    description: string;
-    icon: string;
-  }[];
-  main: {
-  temp: number;
-  feels_like: number;
-  temp_min: number;
-  temp_max: number;
-  humidity: number;
-};
-  wind  : {
-    speed: number;
-};
+  city: {
+    name: string;
+  }
+  list: {
+    main: {
+      temp: number;
+      temp_min: number;
+      temp_max: number;
+      humidity: number;
+    }
+    weather: {
+      main: string;
+      description: string;
+      icon: string;
+    }[]
+    dt_txt: string;
+}[];
 };
 
 
@@ -26,13 +27,14 @@ export const WeatherCard: React.VFC = () => {
   const [data, setData] = useState<weather | null>(null);
   const [city, setCity] = useState<string | "">("");
 
-  // 各都市の座標
+  // 各都市のID
   const cityIds = {
-    tokyo_id: 'lat=35.6828387&lon=139.7594549',
-    osaka_id: 'lat=35.6828387&lon=139.7594549',
-    aichi_id: 'lat=35.6828387&lon=139.7594549',
-    hiroshima_id: 'lat=35.6828387&lon=139.7594549',
-    fukuoka_id: 'lat=35.6828387&lon=139.7594549',
+    tokyo_id: '1850147',
+    osaka_id: '1853909',
+    nagoya_id: '1856057',
+    hiroshima_id: '1862415',
+    fukuoka_id: '1863967',
+    sapporo_id: '2128295',
 };
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -69,6 +71,7 @@ export const WeatherCard: React.VFC = () => {
             <option value="aichi_id">愛知</option>
             <option value="hiroshima_id">広島</option>
             <option value="fukuoka_id">福岡</option>
+            <option value="sapporo_id">札幌</option>
         </select></label>
           <button className="px-4 py-2 m-2 text-white bg-green-300 rounded hover:bg-green-200">天気を見る</button>
         </form>
@@ -78,28 +81,28 @@ export const WeatherCard: React.VFC = () => {
           <div className="flex justify-between">
             <div>
               <p className="font-light">City Name</p>
-              <p className="text-lg font-medium tracking-widest">{data.name}</p>
+              <p className="text-lg font-medium tracking-widest">{data.city.name}</p>
             </div>
           </div>
           <div className="pt-2">
             <p className="font-light">Weather Condition</p>
-            <p className="text-lg font-medium tracking-widest">{data.weather[0].main}</p>
+            <p className="text-lg font-medium tracking-widest">{data.list[0].weather[0].description}</p>
           </div>
           <div className="pt-6 pr-6">
             <div className="flex justify-between">
               <div>
                 <p className="text-xs font-light">Date</p>
                 <p className="text-sm font-bold tracking-more-wider">
-                  today
+                  {data.list[0].dt_txt}
                 </p>
               </div>
               <div>
                 <p className="text-xs font-light">Temprature</p>
-                <p className="text-sm font-bold tracking-more-wider">{kelvinToCelsius(data.main.temp)}℃</p>
+                <p className="text-sm font-bold tracking-more-wider">{kelvinToCelsius(data.list[0].main.temp)}℃</p>
               </div>
               <div>
                 <p className="text-xs font-light">Humidity</p>
-                <p className="text-sm font-bold tracking-more-wider">{data.main.humidity}%</p>
+                <p className="text-sm font-bold tracking-more-wider">{data.list[0].main.humidity}%</p>
               </div>
             </div>
           </div>
