@@ -68,7 +68,7 @@ export const WeatherCard: React.VFC = () => {
             <option value="">都市を選んで</option>
             <option value="tokyo_id">東京</option>
             <option value="osaka_id">大阪</option>
-            <option value="aichi_id">愛知</option>
+            <option value="nagoya_id">名古屋</option>
             <option value="hiroshima_id">広島</option>
             <option value="fukuoka_id">福岡</option>
             <option value="sapporo_id">札幌</option>
